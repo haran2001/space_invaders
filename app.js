@@ -6,11 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 
 	//add invaders
-
-	const alienInvaders = [0, 2, 4]
+	const alienInvaders = [0]
 	alienInvaders.forEach(invader => squares[invader].classList.add('invader'))
 
 
+	//decend invaders
+	alienInvaders.forEach(index => squares)
 
 	//move shooter based on key codes
 	function moveShooter(e){
