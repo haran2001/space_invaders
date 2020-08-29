@@ -7,18 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
 	var invaderDirection = 0
 	let currentBulletIndex
 	let alienInvaders = [15, 16]
-	//add invaders
+	
 
+	//add shooter
+	squares[currentShooterIndex].classList.add('shooter')
+
+	//add invaders
 	alienInvaders.forEach(invader => squares[invader].classList.add('invader'))
 
 	//decend invader
 	function decend(){
-		if(alienInvaders[alienInvaders.length - 1] > 210){
+		if(alienInvaders[alienInvaders.length - 1] < 210){
 			alienInvaders.forEach(index => squares[index].classList.remove('invader'))
-			alienInvaders.forEach(index => index += 15)
+			for(let i=0; i<alienInvaders.length; i++){
+				alienInvaders[i] += 15
+			}
 			alienInvaders.forEach(index => squares[index].classList.add('invader'))
 		}
-
 		else{
 			resetInvaders()
 		}
@@ -41,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		squares[currentShooterIndex].classList.add('player')
 	}
 
+	//shoot from shooter
 	function shoot(){
 		if(currentBulletIndex > width){
 			console.log(currentBulletIndex)
@@ -56,23 +62,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
+	//callfuntion for shoot
 	function shootCall(){
-		console.log(currentShooterIndex)
+		// console.log(currentShooterIndex)
 		currentBulletIndex = currentShooterIndex
-		bulletInterval = setInterval(shoot, 500)
+		bulletInterval = setInterval(shoot, 50)
 	}
 
+	//check for collision
 	function collisionCheck(){
 		for(let i=0; i<alienInvaders.length; i++){
+			console.log('collision check')
 			if(alienInvaders[i] === currentBulletIndex){
-				squares[i].classList.remove('invader')
-				squares[i].classList.add('boom')
-       			setTimeout(() => squares[currentBulletIndex].classList.remove('boom'), 250)
+				// alienInvaders.pop()
+				console.log(alienInvaders.splice(currentBulletIndex, 1))
+				console.log('alien removed at ' + currentBulletIndex)
+				squares[currentBulletIndex].classList.remove('shooter')
+       			squares[currentBulletIndex].classList.add('boom1')
+       			squares[currentBulletIndex].classList.remove('boom1')
+       			clearInterval(bulletInterval)
 			}
 		}
 
 	}
 
+	//set invader position to the top of screen
 	function resetInvaders(){
 		alienInvaders = [15 , 16]
 	}
